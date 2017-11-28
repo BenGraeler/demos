@@ -2,7 +2,7 @@ library(shiny)
 library(DT)
 library(dplyr)
 
-fluidPage(tabsetPanel(
+fluidPage(title="DaKaMon Viewer", tabsetPanel(
   tabPanel("Ka selection",
            column(
              12, dataTableOutput('table'),
