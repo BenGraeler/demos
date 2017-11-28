@@ -1,0 +1,103 @@
+library(shiny)
+library(DT)
+library(dplyr)
+
+# dummy data
+KA_table <- data.frame(name=c("KA A", "KA B", "KA C", "KA D"),
+                       ausbau=c(400,500,600,700),
+                       haushalte=c(80e3,100e3,120e3,140e3))
+
+subFoIs <- list(data.frame(KA=c("KA_A", "KA_A", "KA_A", "KA_A", "KA_A"),
+                           Komponente=c("Zulauf", "Vorklärbecken", "Klärbecken", "Nachklärbecken", "Ablauf"),
+                           Volumen=c(50,60,80,40,23),
+                          Durchsatz=c(12,15,18,16,14)),
+                data.frame(KA=c("KA_B", "KA_B", "KA_B", "KA_B", "KA_B"),
+                                  Komponente=c("Zulauf", "Vorklärbecken", "Klärbecken", "Nachklärbecken", "Ablauf"),
+                                  Volumen=c(50,60,80,40,23),
+                                  Durchsatz=c(12,15,18,16,14)),
+                data.frame(KA=c("KA_C", "KA_C", "KA_C", "KA_C", "KA_C"),
+                                  Komponente=c("Zulauf", "Vorklärbecken", "Klärbecken", "Nachklärbecken", "Ablauf"),
+                                  Volumen=c(50,60,80,40,23),
+                                  Durchsatz=c(12,15,18,16,14)),
+                data.frame(KA=c("KA_D", "KA_D", "KA_D", "KA_D", "KA_D"),
+                                  Komponente=c("Zulauf", "Vorklärbecken", "Klärbecken", "Nachklärbecken", "Ablauf"),
+                                  Volumen=c(50,60,80,40,23),
+                                  Durchsatz=c(12,15,18,16,14)))
+phenData <- list(list(data.frame(time=Sys.time()-1:5*3600,
+                                 cadmium=runif(5),
+                                 zinc = runif(5)),
+                      data.frame(time=Sys.time()-1:5*3600,
+                                 cadmium=runif(5),
+                                 zinc = runif(5)),
+                      data.frame(time=Sys.time()-1:5*3600,
+                                 cadmium=runif(5),
+                                 zinc = runif(5)),
+                      data.frame(time=Sys.time()-1:5*3600,
+                                 cadmium=runif(5),
+                                 zinc = runif(5)),
+                      data.frame(time=Sys.time()-1:5*3600,
+                                 cadmium=runif(5),
+                                 zinc = runif(5))),
+                 list(data.frame(time=Sys.time()-1:5*3600,
+                                 cadmium=runif(5),
+                                 zinc = runif(5)),
+                      data.frame(time=Sys.time()-1:5*3600,
+                                 cadmium=runif(5),
+                                 zinc = runif(5)),
+                      data.frame(time=Sys.time()-1:5*3600,
+                                 cadmium=runif(5),
+                                 lead = runif(5)),
+                      data.frame(time=Sys.time()-1:5*3600,
+                                 cadmium=runif(5),
+                                 zinc = runif(5)),
+                      data.frame(time=Sys.time()-1:5*3600,
+                                 cadmium=runif(5),
+                                 zinc = runif(5))),
+                 list(data.frame(time=Sys.time()-1:5*3600,
+                                 cadmium=runif(5),
+                                 zinc = runif(5)),
+                      data.frame(time=Sys.time()-1:5*3600,
+                                 cadmium=runif(5),
+                                 zinc = runif(5)),
+                      data.frame(time=Sys.time()-1:5*3600,
+                                 cadmium=runif(5),
+                                 zinc = runif(5)),
+                      data.frame(time=Sys.time()-1:5*3600,
+                                 lead=runif(5),
+                                 zinc = runif(5)),
+                      data.frame(time=Sys.time()-1:5*3600,
+                                 cadmium=runif(5),
+                                 zinc = runif(5))),
+                 list(data.frame(time=Sys.time()-1:5*3600,
+                                 cadmium=runif(5),
+                                 zinc = runif(5)),
+                      data.frame(time=Sys.time()-1:5*3600,
+                                 cadmium=runif(5),
+                                 zinc = runif(5)),
+                      data.frame(time=Sys.time()-1:5*3600,
+                                 cadmium=runif(5),
+                                 zinc = runif(5)),
+                      data.frame(time=Sys.time()-1:5*3600,
+                                 cadmium=runif(5),
+                                 zinc = runif(5)),
+                      data.frame(time=Sys.time()-1:5*3600,
+                                 cadmium=runif(5),
+                                 zinc = runif(5))))
+
+fluidPage(tabsetPanel(
+  tabPanel("Ka selection",
+           column(
+             12, dataTableOutput('table'),
+             textOutput("selText")
+           )),
+  tabPanel("Sub FOI",
+           column(
+             12, dataTableOutput('table2'),
+             textOutput("selText2")
+           )),
+  tabPanel(
+    "Data",
+    column(12, dataTableOutput('tabSummary')),
+    column(12, dataTableOutput('table3'))
+  )
+))
